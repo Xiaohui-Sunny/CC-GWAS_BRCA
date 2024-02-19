@@ -14,12 +14,4 @@ cd annovar
 /home/nfs/sunx3/software/annovar/annotate_variation.pl \
  -geneanno \
  -dbtype refGene \
- -buildver hg19 /home/nfs/sunx3/project/bra_subtypes_ccgwas/100_index_SNP_annotation.avinput humandb
-
-
-
-
-/home/nfs/sunx3/software/annovar/annotate_variation.pl \
- -geneanno \
- -dbtype refGene \
  -buildver hg19 /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/BCAC_subtype_ccgwas_sugg_index_0428.avinput humandb
