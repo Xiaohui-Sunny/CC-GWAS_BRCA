@@ -1,23 +1,24 @@
 
-####preparation of data
-# heretability, genetic correlation and intercept were generated from LDSC (python)
-#prepare data for ldsc
+# Preparation of LDSC data
+# Heretability, genetic correlation and intercept were generated from LDSC (python)
+
 library(data.table)
 library(R.utils)
+
 setwd("/home/nfs/sunx3/bra_subtypes_ccgwas/data")
 bc <- fread("icogs_onco_meta_intrinsic_subtypes_summary_level_statistics.txt")
 dim(bc) #9965310 53
 
-# extract SNPs with maf >= 0.01 & info >= 0.8
+## extract SNPs with maf >= 0.01 & info >= 0.8
 bc.sub.pass <- subset(bc, r2.Onco >= 0.8 & EAFcontrols.Onco >= 0.01 & EAFcontrols.Onco <=0.99)
 dim(bc.sub.pass) # 8709696      53
 
-# according to LDSC, remove INDELs
+## according to LDSC, remove INDELs
 bc.sub.pass.2 <- subset(bc.sub.pass, Effect.Meta %in% c('A', 'C', 'G', 'T') & Baseline.Meta %in% c('A', 'C', 'G', 'T'))
 dim(bc.sub.pass.2) # 7745309      53
 table(bc.sub.pass.2$Effect.Meta, bc.sub.pass.2$Baseline.Meta)
 
-# remove A-T/T-A, C-G/G-C
+## remove A-T/T-A, C-G/G-C
 bc.sub.pass.3 <- subset(bc.sub.pass.2, !(Effect.Meta =='A' & Baseline.Meta =='T' | Effect.Meta =='T' & Baseline.Meta =='A' |
                                            Effect.Meta =='C' & Baseline.Meta =='G' | Effect.Meta =='G' & Baseline.Meta =='C'))
 dim(bc.sub.pass.3)
@@ -26,35 +27,35 @@ table(bc.sub.pass.3$Effect.Meta, bc.sub.pass.3$Baseline.Meta)
 
 rm(bc.sub.pass.2)
 rm(bc.sub.pass)
-# output results by subtype
-# Luminal-A
+## output results by subtype
+### Luminal-A
 bc.sub.pass.3$LumA_or <- exp(bc.sub.pass.3$Luminal_A_log_or_meta)
 bc.sub.pass.3$LumA_z <- bc.sub.pass.3$Luminal_A_log_or_meta/bc.sub.pass.3$Luminal_A_se_meta
 bc.sub.pass.3$LumA_p <- 2*(1-pnorm(abs(bc.sub.pass.3$LumA_z)))
 bc.sub.pass.3$ngt <- 0
 
-# Luminal-B
+### Luminal-B
 bc.sub.pass.3$LumB_or <- exp(bc.sub.pass.3$Luminal_B_log_or_meta)
 bc.sub.pass.3$LumB_z <- bc.sub.pass.3$Luminal_B_log_or_meta/bc.sub.pass.3$Luminal_B_se_meta
 bc.sub.pass.3$LumB_p <- 2*(1-pnorm(abs(bc.sub.pass.3$LumB_z)))
 
-# Luminal-B-Her2-neg
+### Luminal-B-Her2-neg
 bc.sub.pass.3$LumB_her2_neg_or <- exp(bc.sub.pass.3$Luminal_B_HER2Neg_log_or_meta)
 bc.sub.pass.3$LumB_her2_neg_z <- bc.sub.pass.3$Luminal_B_HER2Neg_log_or_meta/bc.sub.pass.3$Luminal_B_HER2Neg_se_meta
 bc.sub.pass.3$LumB_her2_neg_p <- 2*(1-pnorm(abs(bc.sub.pass.3$LumB_her2_neg_z)))
 
-# Her2-enrich
+### Her2-enrich
 bc.sub.pass.3$Her2_enrich_or <- exp(bc.sub.pass.3$HER2_Enriched_log_or_meta)
 bc.sub.pass.3$Her2_enrich_z <- bc.sub.pass.3$HER2_Enriched_log_or_meta/bc.sub.pass.3$HER2_Enriched_se_meta
 bc.sub.pass.3$Her2_enrich_p <- 2*(1-pnorm(abs(bc.sub.pass.3$Her2_enrich_z)))
 
-# Triple-neg
+### Triple-neg
 bc.sub.pass.3$Trip_neg_or <- exp(bc.sub.pass.3$Triple_Neg_log_or_meta)
 bc.sub.pass.3$Trip_neg_z <- bc.sub.pass.3$Triple_Neg_log_or_meta/bc.sub.pass.3$Triple_Neg_se_meta
 bc.sub.pass.3$Trip_neg_p <- 2*(1-pnorm(abs(bc.sub.pass.3$Trip_neg_z)))
 
-# match snp names with the ones in the ldscore files
-# unzip the eru_w_ld data
+## match snp names with the ones in the ldscore files
+### unzip the eru_w_ld data
 for (i in 1:22){
   gunzip(paste0("/home/nfs/sunx3/software/ldsc/eur_w_ld_chr/",i,".l2.ldscore.gz"),remove=F)
 }
@@ -69,7 +70,7 @@ bc.sub.mg <- merge(bc.sub.pass.3, ldscore, by.x=c('chr.Onco', 'Position.Onco'), 
 dim(bc.sub.mg) # 1129962    73
 bc.sub.mg <- data.frame(bc.sub.mg)
 
-# remove duplicates
+## remove duplicates
 var <- c('chr.Onco', 'Position.Onco')
 sum(duplicated(bc.sub.mg[var])) # 252, remove them all
 bc.sub.mg$chr_bp <- paste0(bc.sub.mg$chr.Onco, '_', bc.sub.mg$Position.Onco)
@@ -77,7 +78,7 @@ dup <- bc.sub.mg$chr_bp[duplicated(bc.sub.mg[var])]
 bc.sub.f <- subset(bc.sub.mg, !chr_bp %in% dup)
 dim(bc.sub.f) # 1129458      74
 
-#write down the input file for ldsc
+## write down the input file for ldsc
 bc_LumA <- bc.sub.f[,c("SNP","chr.iCOGs","Position.iCOGs","Effect.iCOGs","Baseline.iCOGs","LumA_or","Luminal_A_se_meta","LumA_p","r2.Onco","ngt","EAFcontrols.Onco")]
 colnames(bc_LumA) <- c('snpid','hg18chr','bp','a1','a2','or','se','pval','info','ngt','CEUaf')
 write.table(bc_LumA, '/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_LuminaA_ldsc_input.txt', row.names=F, quote=F)
@@ -100,11 +101,11 @@ write.table(bc_Trip, '/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_Trip_ldsc_in
 
 
 ###############################################################################
-##### correlation matrix plot
+## correlation matrix plot
 library(corrplot)
 library(RColorBrewer)
 res <- read.csv("G:/My work/Project/BRA subtypes_ccGWAS/results/ldsc/figure.csv",head=T)
-rownames(res) <- res$ï..
+rownames(res) <- res$Ã¯..
 res2 <- as.matrix(res[,-1])
 corrplot(res2, method="circle",col.lim = c(0.5, 1), is.corr=FALSE, col = COL1('Blues',10),addCoef.col = 'grey55',addgrid.col = 'white',type = 'lower',
          tl.col = 'black',tl.srt = 25)
