@@ -3,7 +3,6 @@ library(R.utils)
 library(data.table)
 library(TwoSampleMR)
 
-## filter SNPs
 setwd('/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas')
 files <- c('lumB_lumA.out.results.gz', 'her2_enrich_lumA.out.results.gz',
            'trip_lumA.out.results.gz', 'her2_enrich_lumB.out.results.gz',
@@ -19,44 +18,82 @@ for (i in 1:length(files)){
   sig.all <- rbind(sig.all, sig)
 }
 dim(sig.all) 
- 
+
 n <- length(unique(sig.all$cc))
+write.csv(sig.all,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/sugg signal.csv",row.names = F)
+
+
+# filter SNPs 
+bc <- fread("/home/nfs/sunx3/data/bcac/icogs_onco_meta_intrinsic_subtypes_summary_level_statistics.txt")
+bc$chr_bp <- paste0(bc$chr.iCOGs,"_",bc$Position.iCOGs)
+
+sig.all$chr_bp <- paste0(sig.all$CHR, "_", sig.all$BP)
+sig.all <- merge(sig.all, bc, by = "chr_bp")
+
+sig.all$LumA_z <- sig.all$Luminal_A_log_or_meta/sig.all$Luminal_A_se_meta
+sig.all$LumA_p <- 2*(1-pnorm(abs(sig.all$LumA_z)))
+
+sig.all$LumB_z <- sig.all$Luminal_B_log_or_meta/sig.all$Luminal_B_se_meta
+sig.all$LumB_p <- 2*(1-pnorm(abs(sig.all$LumB_z)))
+
+sig.all$LumB_her2_neg_z <- sig.all$Luminal_B_HER2Neg_log_or_meta/sig.all$Luminal_B_HER2Neg_se_meta
+sig.all$LumB_her2_neg_p <- 2*(1-pnorm(abs(sig.all$LumB_her2_neg_z)))
+
+
+sig.all$Her2_enrich_z <- sig.all$HER2_Enriched_log_or_meta/sig.all$HER2_Enriched_se_meta
+sig.all$Her2_enrich_p <- 2*(1-pnorm(abs(sig.all$Her2_enrich_z)))
+
+sig.all$Trip_neg_z <- sig.all$Triple_Neg_log_or_meta/sig.all$Triple_Neg_se_meta
+sig.all$Trip_neg_p <- 2*(1-pnorm(abs(sig.all$Trip_neg_z)))
+
+
+sig.all$beta.1 <- ifelse(sig.all$cc == "her2_enrich_lumA.out.results.gz", sig.all$HER2_Enriched_log_or_meta,
+                         ifelse(sig.all$cc == "lumB_lumA.out.results.gz", sig.all$Luminal_B_log_or_meta, sig.all$Triple_Neg_log_or_meta))
+
+sig.all$p.1 <- ifelse(sig.all$cc == "her2_enrich_lumA.out.results.gz", sig.all$Her2_enrich_p,
+                      ifelse(sig.all$cc == "lumB_lumA.out.results.gz", sig.all$LumB_p, sig.all$Trip_neg_p))
+
+
+sig.all$beta.2 <- ifelse(sig.all$cc == "trip_lumB_her2_neg.out.results.gz", sig.all$Luminal_B_HER2Neg_log_or_meta,
+                         ifelse(sig.all$cc == "trip_lumB.out.results.gz", sig.all$Luminal_B_log_or_meta, sig.all$Luminal_A_log_or_meta))
+
+
+sig.all$p.2 <- ifelse(sig.all$cc == "trip_lumB_her2_neg.out.results.gz", sig.all$LumB_her2_neg_p,
+                      ifelse(sig.all$cc == "trip_lumB.out.results.gz", sig.all$LumB_p, sig.all$LumA_p))
 
 summary(sig.all$OLS_pval)
 summary(sig.all$Exact_pval)
 sig.all$flag1<-1
-sig.all$flag1[dat$p < 5e-8] <- 2
+sig.all$flag1[sig.all$p.1 < 5e-8] <- 2
 table(sig.all$flag1)
 
-summary(sig.all$p[sig.all$P < 5e-8])
+summary(sig.all$p.1[sig.all$p.2 < 5e-8])
 sig.all$flag2 <-1
-sig.all$flag2[sig.all$p > 0.01 & sig.all$P < 5e-8] <- 2 
+sig.all$flag2[sig.all$p.1 > 0.01 & sig.all$p.2 < 5e-8] <- 2 
 
 
 table(sig.all$flag2)
-summary(sig.all$p[sig.all$flag2 == 1])
-summary(sig.all$p[sig.all$flag2 == 2])
-summary(sig.all$p[sig.all$flag1 == 1 & sig.all$flag2 == 1])
+summary(sig.all$p.1[sig.all$flag2 == 1])
+summary(sig.all$p.1[sig.all$flag2 == 2])
+summary(sig.all$p.1[sig.all$flag1 == 1 & sig.all$flag2 == 1])
 
 table(sig.all$flag1, sig.all$flag2)
 
 sig.all.sub <- sig.all[sig.all$flag1 == 1 & sig.all$flag2 == 1, ]
 
 sig.all.sub$flag3 <- 1
-sig.all.sub$flag3[sig.all.sub$beta < 0 & sig.all.sub$beta.1 >0] <- 2
-sig.all.sub$flag3[sig.all.sub$beta > 0 & sig.all.sub$beta.1 <0] <- 2
+sig.all.sub$flag3[sig.all.sub$beta.1 < 0 & sig.all.sub$beta.2 >0] <- 2
+sig.all.sub$flag3[sig.all.sub$beta.1 > 0 & sig.all.sub$beta.2 <0] <- 2
 table(sig.all.sub$flag3)
 
 sig.all.sub.f <- sig.all.sub[sig.all.sub$flag3 == 2, ]
 table(sig.all.sub.f$cc)
 
 
+# clump r2 < 0.1
 dbsnp <- data.table::fread('/home/nfs/sunx3/data/dbsnp/snp150Common_GRCh37.txt', header=F)
 dbsnp$chr_bp <- paste0(sapply(strsplit(dbsnp$V1, 'chr'), '[', 2), '_', dbsnp$V3)
 
-sig.all.sub.f$chr_bp <- paste0(sig.all.sub.f$CHR, '_',  sig.all.sub.f$BP)
-sig.all.sub.f <- data.frame(sig.all.sub.f)
-dim(sig.all.sub.f)
 
 sig.subtype.all <- c()
 files <- c('lumB_lumA.out.results.gz', 'her2_enrich_lumA.out.results.gz',
@@ -64,11 +101,11 @@ files <- c('lumB_lumA.out.results.gz', 'her2_enrich_lumA.out.results.gz',
            'trip_lumB.out.results.gz', 'trip_lumB_her2_neg.out.results.gz'
 )
 for (i in 1:length(files)){
-  subtype <- subset(sig.all.sub.f, cc==files[i])
+  subtype <- subset(sig.all.sub.f, cc == files[i])
   dim(subtype)
   subtype.m <- merge(subtype, dbsnp, by='chr_bp', all.x=T)
   dim(subtype.m)
-  sig.subtype <- subtype.m[c('V2','CHR', 'BP', 'OLS_pval')]
+  sig.subtype <- subtype.m[,c('V2','CHR', 'BP', 'OLS_pval')]
   colnames(sig.subtype)[1] <- c('SNP')
   colnames(sig.subtype)[4] <- c('pval.exposure')
   subtype.sig.prune <- clump_data(sig.subtype,  clump_r2=0.09)
@@ -87,34 +124,12 @@ sig.subtype.all <- subset(sig.subtype.all, !chr_bp %in% dup.all$chr_bp)
 dim(sig.subtype.all) 
 table(sig.subtype.all$index)
 #29 suggestive index
-write.csv(sig.subtype.all, 'BCAC_subtype_ccgwas_sugg_LD_prune_0920.csv', row.names=F, quote=F)
+write.csv(sig.subtype.all, 'BCAC_subtype_ccgwas_sugg_LD_prune.csv', row.names=F, quote=F)
 rm(dbsnp)
 
 
 
-## Extract original case-control results for index SNPs
-index <- subset(sig.subtype.all, index==1)
-BC.sub.all <- fread('/home/nfs/sunx3/bra_subtypes_ccgwas/data/icogs_onco_meta_intrinsic_subtypes_summary_level_statistics.txt', header=T)
-index.m <- merge(index, BC.sub.all, by.x=c('CHR', 'BP'), by.y=c('chr.Onco', 'Position.Onco'), all.x=T)
-dim(index.m)
-write.csv(index.m, 'BCAC_subtype_ccgwas_index_original_gwas_results_052021.csv', row.names = F)
-rm(BC.sub.all)
-
-## Extract results for SNPs within +/-500 kb of index SNPs
-for (i in 1:length(files)){
-  snp.all <- c()
-  dat <- data.table::fread(files[i], header=T)
-  dat <- data.frame(dat)
-  index.sub <- index[index$cc==files[i],]
-  for (l in 1:nrow(index.sub)){
-    snp <- subset(dat, CHR==index.sub$CHR[l] & BP < index.sub$BP[l]+500000 & BP > index.sub$BP[l]-500000)
-    snp$index <- ifelse(snp$CHR== index.sub$CHR[l] & snp$BP == index.sub$BP[l], 1, 0)
-    snp.all <- rbind(snp.all, snp)
-  }
-  write.csv(snp.all, paste0(files[i], 'ccgwas_1mb_index_snp_052021.csv'), row.names = F)
-}
-
-## Manhattan plot for cc-gwas results (ggplot2)
+## Manhattan plot for cc-gwas results 
 ## generate the manhattan plot contianed several comprions in one figure 
 library(CMplot)
 library(dplyr)
@@ -126,29 +141,29 @@ files <- c('lumB_lumA.out.results.gz', 'her2_enrich_lumA.out.results.gz',
            'trip_lumA.out.results.gz', 'her2_enrich_lumB.out.results.gz',
            'trip_lumB.out.results.gz', 'trip_lumB_her2_neg.out.results.gz','trip_her2.out.results.gz')
 # filter the SNPs
-sugg.snp.all <- read.csv('/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/sugg signal0428.csv', header=T)
+sugg.snp.all <- read.csv('/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/sugg signal.csv', header=T)
 sugg.snp <- sugg.snp.all
 summary(sugg.snp$OLS_pval)
 summary(sugg.snp$Exact_pval)
 sugg.snp$flag1<-1
-sugg.snp$flag1[sugg.snp$p < 5e-8] <- 2
+sugg.snp$flag1[sugg.snp$p.1 < 5e-8] <- 2
 table(sugg.snp$flag1)
 
-summary(sugg.snp$p[sugg.snp$P < 5e-8])
+summary(sugg.snp$p[sugg.snp$p.2 < 5e-8])
 sugg.snp$flag2 <-1
-sugg.snp$flag2[sugg.snp$p > 0.01 & sugg.snp$P < 5e-8] <- 2
+sugg.snp$flag2[sugg.snp$p.1 > 0.01 & sugg.snp$p.2 < 5e-8] <- 2
 table(sugg.snp$flag2)
-summary(sugg.snp$p[sugg.snp$flag2 == 1])
-summary(sugg.snp$p[sugg.snp$flag2 == 2])
-summary(sugg.snp$p[sugg.snp$flag1 == 1 & sugg.snp$flag2 == 1])
+summary(sugg.snp$p.1[sugg.snp$flag2 == 1])
+summary(sugg.snp$p.1[sugg.snp$flag2 == 2])
+summary(sugg.snp$p.1[sugg.snp$flag1 == 1 & sugg.snp$flag2 == 1])
 
 table(sugg.snp$flag1, sugg.snp$flag2)
 
 sugg.snp.sub <- sugg.snp[sugg.snp$flag1 == 1 & sugg.snp$flag2 == 1, ]
 
 sugg.snp.sub$flag3 <- 1
-sugg.snp.sub$flag3[sugg.snp.sub$beta < 0 & sugg.snp.sub$beta.1 >0] <- 2
-sugg.snp.sub$flag3[sugg.snp.sub$beta > 0 & sugg.snp.sub$beta.1 <0] <- 2
+sugg.snp.sub$flag3[sugg.snp.sub$beta.1 < 0 & sugg.snp.sub$beta.2 >0] <- 2
+sugg.snp.sub$flag3[sugg.snp.sub$beta.1 > 0 & sugg.snp.sub$beta.2 <0] <- 2
 table(sugg.snp.sub$flag3)
 
 sugg.snp.sub.f <- sugg.snp.sub[sugg.snp.sub$flag3 == 2, ]
