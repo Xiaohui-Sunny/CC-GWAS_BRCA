@@ -56,7 +56,7 @@ python munge_sumstats_r2_0.8.py \
    --sumstats /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/BCAC_Trip_ldsc_input_neff.txt \
    --N 107976 \
    --chunksize 500000 \
-   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428 \
+   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip \
    --merge-alleles /home/nfs/sunx3/software/ldsc/example/w_hm3.snplist
 
 ### BCAC_LuminaB
@@ -64,7 +64,7 @@ python munge_sumstats_r2_0.8.py \
    --sumstats /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/BCAC_LuminaB_ldsc_input_neff.txt \
    --N 103891 \
    --chunksize 500000 \
-   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428 \
+   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB \
    --merge-alleles /home/nfs/sunx3/software/ldsc/example/w_hm3.snplist
 
 ### BCAC_LuminaA
@@ -72,7 +72,7 @@ python munge_sumstats_r2_0.8.py \
    --sumstats /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/BCAC_LuminaA_ldsc_input_neff.txt \
    --N 152192 \
    --chunksize 500000 \
-   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428 \
+   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA8 \
    --merge-alleles /home/nfs/sunx3/software/ldsc/example/w_hm3.snplist
 
 ### BCAC_Her2
@@ -80,7 +80,7 @@ python munge_sumstats_r2_0.8.py \
    --sumstats /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/BCAC_Her2_enrich_ldsc_input_neff.txt \
    --N 97336 \
    --chunksize 500000 \
-   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428 \
+   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2 \
    --merge-alleles /home/nfs/sunx3/software/ldsc/example/w_hm3.snplist
 
 ### BCAC_LumB_her2
@@ -88,85 +88,85 @@ python munge_sumstats_r2_0.8.py \
    --sumstats /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/BCAC_LuminaB_Her2_ldsc_input_neff.txt \
    --N 108420 \
    --chunksize 500000 \
-   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428 \
+   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2 \
    --merge-alleles /home/nfs/sunx3/software/ldsc/example/w_hm3.snplist
 
 
 ## ld regression
 ### LumA and LumB
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB
 
 ### LumA and Her2
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_Her2_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_Her2
 
 ### LumA and LumB_her2
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB-her2_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB-her2
 
 ### LumA and Triple
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_Triple_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_Triple
 
 ### LumB and Her2
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_Her2_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_Her2
 
 ### LumB and LumB_her2
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_LumB-her2_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_LumB-her2
 
 ### LumB and Triple
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_Triple_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumB_Triple
 
 ### Her2 and LumB_her2
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2_LumB-her2_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2_LumB-her2
 
 ### Her2 and Triple
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2_Triple_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2_Triple
 
 ### LumB_her2 and Triple
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB-her2_Triple_0428
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB-her2_Triple
 
 ## cross-trait ldsc, convert to liability
 ### LumA and LumB
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB_liability \
@@ -176,7 +176,7 @@ python ldsc.py \
 
 ### LumA and LumB_her2
  python ldsc.py \
-   --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her20428.sumstats.gz \
+   --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumB_her2.sumstats.gz \
    --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
    --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
    --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_LumB_her2_liability \
@@ -185,7 +185,7 @@ python ldsc.py \
 
 ### LumA and her2
  python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her20428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Her2.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_her2_liability \
@@ -195,7 +195,7 @@ python ldsc.py \
  
 ### LumA and Triple
 python ldsc.py \
-  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA0428.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip0428.sumstats.gz \
+  --rg /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/LumA.sumstats.gz,/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ldsc/Trip.sumstats.gz \
   --ref-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --w-ld-chr /home/nfs/sunx3/software/ldsc/example/eur_w_ld_chr/ \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ldsc/LumA_Trip_liability \
