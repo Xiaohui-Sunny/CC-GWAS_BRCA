@@ -84,10 +84,3 @@ colnames(bc.trip) <- c('SNP','CHR','BP','EA','NEA','FRQ','OR','SE','P','Neff')
 write.table(bc.trip, '/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_Triple_ccgwas_input.txt', row.names=F, quote=F)
 rm(bc.trip)
 
-bc.LumB.her2.neg <- fread(gunzip("/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_LuminaB_her2_ccgwas_input.txt.gz",remove=F))
-bc.LumB.her2.neg$Neff2 <- 1.9062^2*bc.LumB.her2.neg$Neff
-bc.LumB.her2.neg <- bc.LumB.her2.neg[,c('SNP','CHR','BP','EA','NEA','FRQ','OR','SE','P','Neff2')]
-colnames(bc.LumB.her2.neg) <- c('SNP','CHR','BP','EA','NEA','FRQ','OR','SE','P','Neff')
-write.table(bc.LumB.her2.neg, "/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_LuminaB_her2_ccgwas_input_change neff.txt", row.names=F, quote=F)
-gzip("/home/nfs/sunx3/bra_subtypes_ccgwas/data/BCAC_LuminaB_her2_ccgwas_input_change neff.txt")
-rm(bc.LumB.her2.neg)
