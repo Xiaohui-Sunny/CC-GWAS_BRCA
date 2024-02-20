@@ -9,8 +9,8 @@ library(CCGWAS)
 setwd("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas")
 # luminal-B vs luminal-A 
 CCGWAS( outcome_file = "lumB_lumA.out" , A_name = "LMB" , B_name = "LMA" , 
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.014 , K_A1A0_high = 0.021 , K_A1A0_low = 0.007 , 
         K_B1B0 = 0.066 , K_B1B0_high = 0.094 , K_B1B0_low = 0.047 ,  
         h2l_A1A0 = 0.531 , h2l_B1B0 = 0.1422 , rg_A1A0_B1B0 = 0.7765 , intercept_A1A0_B1B0 = 0.1148 , m = 5000 ,  
@@ -42,8 +42,8 @@ CCGWAS( outcome_file = "lumB_lumA.out" , A_name = "LMB" , B_name = "LMA" ,
 
 # her2 enrich vs lumA 
 CCGWAS( outcome_file = "her2_enrich_lumA.out" , A_name = "HER" , B_name = "LMA" , 
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.005 , K_A1A0_high = 0.008 , K_A1A0_low = 0.003 , 
         K_B1B0 = 0.066 , K_B1B0_high = 0.094, K_B1B0_low = 0.047 ,  
         h2l_A1A0 = 0.9839 , h2l_B1B0 = 0.1422 , rg_A1A0_B1B0 = 0.6752 , intercept_A1A0_B1B0 = 0.1213 , m = 5000 ,  
@@ -58,8 +58,8 @@ CCGWAS( outcome_file = "her2_enrich_lumA.out" , A_name = "HER" , B_name = "LMA" 
 
 # triple negative vs lumA 
 CCGWAS( outcome_file = "trip_lumA.out" , A_name = "TRP" , B_name = "LMA" , 
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaA_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.015 , K_A1A0_high = 0.023 , K_A1A0_low = 0.008 , 
         K_B1B0 = 0.066 , K_B1B0_high = 0.094, K_B1B0_low = 0.047 ,  
         h2l_A1A0 = 0.2984 , h2l_B1B0 = 0.1422 , rg_A1A0_B1B0 = 0.5305 , intercept_A1A0_B1B0 = 0.2123 , m = 5000 ,  
@@ -74,8 +74,8 @@ CCGWAS( outcome_file = "trip_lumA.out" , A_name = "TRP" , B_name = "LMA" ,
 
 # her2 enriched vs lumB
 CCGWAS( outcome_file = "her2_enrich_lumB.out" , A_name = "HER" , B_name = "LMB" , 
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.005 , K_A1A0_high = 0.008 , K_A1A0_low = 0.003 , 
         K_B1B0 = 0.014 , K_B1B0_high = 0.021 , K_B1B0_low = 0.007 ,  
         h2l_A1A0 = 0.9839 , h2l_B1B0 = 0.531 , rg_A1A0_B1B0 = 0.6006 , intercept_A1A0_B1B0 =0.0559 , m = 5000 ,  
@@ -83,8 +83,8 @@ CCGWAS( outcome_file = "her2_enrich_lumB.out" , A_name = "HER" , B_name = "LMB" 
 
 #  triple neg vs luminal-B 
 CCGWAS( outcome_file = "trip_lumB.out" , A_name = "TRP" , B_name = "LMB" ,
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.015 , K_A1A0_high = 0.023 , K_A1A0_low = 0.008 ,
         K_B1B0 = 0.014 , K_B1B0_high = 0.021 , K_B1B0_low = 0.007 ,
         h2l_A1A0 = 0.2984 , h2l_B1B0 = 0.531, rg_A1A0_B1B0 = 0.7101 , intercept_A1A0_B1B0 = 0.0734, m = 5000 ,
@@ -92,8 +92,8 @@ CCGWAS( outcome_file = "trip_lumB.out" , A_name = "TRP" , B_name = "LMB" ,
 
 # triple negative vs her2 enriched 
 CCGWAS( outcome_file = "trip_her2.out" , A_name = "TRP" , B_name = "HER" ,
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Her2_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.015 , K_A1A0_high = 0.023 , K_A1A0_low = 0.008 ,
         K_B1B0 = 0.005 , K_B1B0_high = 0.008 , K_B1B0_low = 0.003 ,
         h2l_A1A0 = 0.2984 , h2l_B1B0 = 0.9839 , rg_A1A0_B1B0 = 0.7994 , intercept_A1A0_B1B0 = -0.0871, m = 5000 ,
@@ -102,8 +102,8 @@ CCGWAS( outcome_file = "trip_her2.out" , A_name = "TRP" , B_name = "HER" ,
 
 # triple negative vs luminalB-Her2-neg
 CCGWAS( outcome_file = "trip_lumB_her2_neg.out" , A_name = "TRP" , B_name = "LBH" ,
-        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input0428_change neff.txt.gz" ,
-        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_her2_ccgwas_input0428_change neff.txt.gz" ,
+        sumstats_fileA1A0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_Triple_ccgwas_input.txt.gz" ,
+        sumstats_fileB1B0 = "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/ccgwas/BCAC_LuminaB_her2_ccgwas_input.txt.gz" ,
         K_A1A0 = 0.015 , K_A1A0_high = 0.023 , K_A1A0_low = 0.008 ,
         K_B1B0 = 0.028 , K_B1B0_high = 0.047 , K_B1B0_low = 0.009 ,
         h2l_A1A0 = 0.2984 , h2l_B1B0 = 0.3466 , rg_A1A0_B1B0 = 0.5171 , intercept_A1A0_B1B0 = 0.0944, m = 5000 ,
