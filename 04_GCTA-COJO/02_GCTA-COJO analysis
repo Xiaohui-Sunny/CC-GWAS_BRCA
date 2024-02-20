@@ -1,0 +1,37 @@
+#gcta analysis
+#perform gcta analysis based on summary statistics from ccgwas
+#Her2 and LumA 
+/home/nfs/sunx3/software/gcta/gcta64 \
+  --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
+  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/her2_lumA/test1.txt \
+  --cojo-file /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_her2_lumA_gcta_input0428.ma  \
+  --cojo-joint \
+  --cojo-collinear 0.99 \
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/her2_lumA/0605test1
+
+
+#LumB and LumA
+/home/nfs/sunx3/software/gcta/gcta64 \
+  --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
+  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/lumB_lumA/test1.txt \
+  --cojo-file /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_lumB_lumA_gcta_input0428.ma \
+  --cojo-joint \
+  --cojo-collinear 0.99 \
+  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/lumB_lumA/0605test1
+
+
+#Triple and LumA
+for i in {1..21};
+do echo $(/home/nfs/sunx3/software/gcta/gcta64 --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/trip_lumA/test"$i".txt --cojo-file /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_trip_lumA_gcta_input0428.ma --cojo-joint --cojo-collinear 0.99 --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumA/0605test"$i");
+done
+
+#Triple and LumB
+for i in {1..4};
+do echo $(/home/nfs/sunx3/software/gcta/gcta64 --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/trip_lumB/test"$i".txt --cojo-file /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_trip_lumB_gcta_input0428.ma --cojo-joint --cojo-collinear 0.99 --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumB/0605test"$i");
+done
+
+
+#Triple and LumB-her2-negative
+for i in {1..2};
+do echo $(/home/nfs/sunx3/software/gcta/gcta64 --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/trip_lumB_her2_neg/test"$i".txt --cojo-file /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_trip_lumB_her2_neg_gcta_input0428.ma --cojo-joint --cojo-collinear 0.99 --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumB_her2_neg/0605test"$i");
+done
