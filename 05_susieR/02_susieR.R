@@ -1,13 +1,9 @@
 # Fine-mapping by using susie
 
-## debug
-#https://github.com/stephenslab/susieR/issues/148
-
 library(data.table)
 library(tidyverse)
 library(susieR)
 
-## prepare the summary statistics for the lead SNPs(n=100) from the ccgwas summary statistics
 #### chunk the data into genomic risk loci, where all variants within 0.5Mb either side the lead SNP are included in the chunk
 #### Summary statistics of genetic association studies typically contain effect size (β^ coefficient from regression), p-value and minor allele frequencies. 
 setwd('/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas')
@@ -19,9 +15,6 @@ files <- c('lumB_lumA.out.results.gz',  'her2_enrich_lumA.out.results.gz',
 
 index.snp <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/BCAC_subtype_ccgwas_sugg_LD_prune_0605.csv",head=T)
 index.snp <- as.data.frame(index.snp)
-
-index.snp <- subset(index.snp, index.snp$index=='1')
-
 
 ### extract results for SNPs within +/-500 kb of index SNP
 for (i in 1:length(files)){
@@ -63,7 +56,6 @@ dosage.trip.lumA <- dosage.trip.lumA[,-c(1:6)]
 colnames <- as.data.frame(colnames(dosage.trip.lumA))
 colnames <- as.data.frame(stringr::str_split_fixed(colnames$`colnames(dosage.trip.lumA)`, "_", 2))
 
-
 trip.lumA <- merge(trip.lumA,colnames,by.x="V2",by.y="V1",fill=T) 
 #### check the allele
 trip.lumA$beta <- ifelse(trip.lumA$EA==trip.lumA$V2.y, trip.lumA$OLS_beta,-trip.lumA$OLS_beta)
@@ -75,7 +67,7 @@ trip.lumA.index <- unique(trip.lumA.index)#47
 dosage.trip.lumA <- as.data.frame(dosage.trip.lumA)
 
 trip.lumA.all <- c()
-for (i in 19:length(trip.lumA.index)){
+for (i in 1:length(trip.lumA.index)){
   trip.lumA.sub <-c()
   trip.lumA.re <-c()
   trip.lumA.sub <- as.data.frame(subset(trip.lumA, trip.lumA$indexsnp==trip.lumA.index[i]))
@@ -104,8 +96,6 @@ write.csv(trip.lumA.all, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/sus
 #rs1264478:102424918:G:A:(18th in the trip.lumA.index list) did not find the credible sets
 
 
-
-
 ###########################################################################################################
 ### trip and lumB
 trip.lumB <- fread("trip_lumB.out.results.gzccgwas_1mb_index_snp_0605.csv", head=T)
@@ -132,12 +122,12 @@ trip.lumB$z.change <- trip.lumB$beta/trip.lumB$OLS_se
 
 ##### generate the LD matrix for each index SNP and its nearby SNPs
 trip.lumB.index <- trip.lumB$indexsnp
-trip.lumB.index <- unique(trip.lumB.index) #9
+trip.lumB.index <- unique(trip.lumB.index) 
 
 
 dosage.trip.lumB <- as.data.frame(dosage.trip.lumB)
 trip.lumB.all <- c()
-for (i in 2:length(trip.lumB.index)){
+for (i in 1:length(trip.lumB.index)){
   trip.lumB.sub <-c()
   trip.lumB.sub <- as.data.frame(subset(trip.lumB, trip.lumB$indexsnp==trip.lumB.index[i]))
   v = as.vector(unlist(trip.lumB.sub[,1]))
@@ -189,7 +179,7 @@ trip.lumB.her2.neg.index <- unique(trip.lumB.her2.neg.index)#9
 
 dosage.trip.lumB.her2.neg <- as.data.frame(dosage.trip.lumB.her2.neg)
 trip.lumB.her2.neg.all <- c()
-for (i in 5:length(trip.lumB.her2.neg.index)){
+for (i in 1:length(trip.lumB.her2.neg.index)){
   trip.lumB.her2.neg.sub <-c()
   trip.lumB.her2.neg.re <-c()
   trip.lumB.her2.neg.sub <- as.data.frame(subset(trip.lumB.her2.neg, trip.lumB.her2.neg$indexsnp==trip.lumB.her2.neg.index[i]))
