@@ -1,21 +1,16 @@
 # prepare input data for GCTA-COJO
 #Columns are SNP, the effect allele, the other allele, frequency of the effect allele, effect size, standard error, 
 #p-value and sample size. The headers are not keywords and will be omitted by the program. 
-#Important: "A1" needs to be the effect allele with "A2" being the other allele and "freq" should be the frequency of "A1".
-#example:
-#SNP A1 A2 freq b se p N 
-#rs1001 A G 0.8493 0.0024 0.0055 0.6653 129850 
-#rs1002 C G 0.0306 0.0034 0.0115 0.7659 129799 
-#rs1003 A C 0.5128 0.0045 0.0038 0.2319 129830
 
 library(data.table)
 library(R.utils)
+
 # mernge with original gwas data for freq
 bc <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/icogs_onco_meta_intrinsic_subtypes_summary_level_statistics.txt")
 bc <- bc[,c("SNP.iCOGs","chr.iCOGs","Position.iCOGs","EAFcontrols.iCOGs")]
 bc$chr_bp <- paste0(bc$chr.iCOGs,"_", bc$Position.iCOGs)
 
-# merge with 1000 genomes obtain the rs for SNP
+# merge with 1000 genomes to obtain the rs for SNP
 geno1000 <- fread("/home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur.bim", head=F)
 dim(geno1000)#22665064
 geno1000$chr_bp <- paste0(geno1000$V1,"_", geno1000$V4)
@@ -25,10 +20,10 @@ geno1000$chr_bp <- paste0(geno1000$V1,"_", geno1000$V4)
 Her2.LumA <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/her2_enrich_lumA.out.results.gz")
 Her2.LumA$n <- 5859+60715 #cases of her2 and cases of lumA
 Her2.LumA$chr_bp <- paste0(Her2.LumA$CHR, '_',  Her2.LumA$BP)
-#merge and extract freq
+# merge and extract freq
 Her2.LumA.m <- merge(bc,Her2.LumA,by.x="chr_bp", by.y="chr_bp")
 dim(Her2.LumA.m)#5982435
-#merge and extract rs no.
+# merge and extract rs no.
 Her2.LumA.m <- merge(Her2.LumA.m, geno1000,by.x="chr_bp",by.y="chr_bp")
 dim(Her2.LumA.m)#5915848
 Her2.LumA.m <-Her2.LumA.m[,c("V2","EA","NEA","EAFcontrols.iCOGs","OLS_beta","OLS_se","OLS_pval","n")]
@@ -68,8 +63,7 @@ Her2.LumB$chr_bp <- paste0(Her2.LumB$CHR, '_',  Her2.LumB$BP)
 #merge and extract freq
 Her2.LumB.m <- merge(bc,Her2.LumB,by.x="chr_bp", by.y="chr_bp")
 Her2.LumB.m <- merge(Her2.LumB.m, geno1000,by.x="chr_bp",by.y="chr_bp")
-
-Her2.LumB.m <-Her2.LumB.m[,c("V2","EA","NEA","EAFcontrols.iCOGs","OLS_beta","OLS_se","OLS_pval","n")]
+Her2.LumB.m <- Her2.LumB.m[,c("V2","EA","NEA","EAFcontrols.iCOGs","OLS_beta","OLS_se","OLS_pval","n")]
 colnames(Her2.LumB.m) <- c('SNP','A1','A2','freq','b','se','p','N')
 write.table(Her2.LumB.m, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_her2_lumB_gcta_input0428.ma",row.names = F, quote = F)
 dim(Her2.LumB.m) #5892359
@@ -84,7 +78,6 @@ Trip.LumB$chr_bp <- paste0(Trip.LumB$CHR, '_',  Trip.LumB$BP)
 #merge and extract freq
 Trip.LumB.m <- merge(bc,Trip.LumB,by.x="chr_bp", by.y="chr_bp")
 Trip.LumB.m <- merge(Trip.LumB.m, geno1000,by.x="chr_bp",by.y="chr_bp")
-
 Trip.LumB.m <-Trip.LumB.m[,c("V2","EA","NEA","EAFcontrols.iCOGs","OLS_beta","OLS_se","OLS_pval","n")]
 colnames(Trip.LumB.m) <- c('SNP','A1','A2','freq','b','se','p','N')
 write.table(Trip.LumB.m, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_trip_lumB_gcta_input0428.ma",row.names = F, quote = F)
@@ -99,7 +92,6 @@ Trip.LumB_her2$chr_bp <- paste0(Trip.LumB_her2$CHR, '_',  Trip.LumB_her2$BP)
 #merge and extract freq
 Trip.LumB_her2.m <- merge(bc,Trip.LumB_her2,by.x="chr_bp", by.y="chr_bp")
 Trip.LumB_her2.m <- merge(Trip.LumB_her2.m, geno1000,by.x="chr_bp",by.y="chr_bp")
-
 Trip.LumB_her2.m <-Trip.LumB_her2.m[,c("V2","EA","NEA","EAFcontrols.iCOGs","OLS_beta","OLS_se","OLS_pval","n")]
 colnames(Trip.LumB_her2.m) <- c('SNP','A1','A2','freq','b','se','p','N')
 write.table(Trip.LumB_her2.m, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/BCAC_trip_lumB_her2_neg_gcta_input0428.ma",row.names = F, quote = F)
@@ -119,6 +111,7 @@ rm(Trip.LumB_her2)
 #prepare input SNP test list
 library(tidyr)
 library(dplyr)
+
 ## prepare the snps associated with overall snps from 
 snp.list.overallBC <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/pre_loci.csv",head=T)
 snp.list.overallBC$chr_bp <- paste0(snp.list.overallBC$Chr, '_',  snp.list.overallBC$Position)
@@ -149,7 +142,7 @@ a <- bc[which(bc$chr_bp=='22_29098376'),]
 ## Step 2: examine if independent nearby snps can be merged with the summary statistics
 ## Step 3: find a proxy for the missing SNP
 ## Step 4: generate the .txt file for each index snp and its nearby(+/- 500 kb) SNPs associated with overall breast cancer
-
+## Step 5: add the proxy to the snp list and generate the input data for gcta-cojo
 
 snp.list.ccgwas <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/BCAC_subtype_ccgwas_sugg_LD_prune_0605.csv",head=T)
 snp.list.ccgwas <- subset(snp.list.ccgwas,snp.list.ccgwas$index==1,) #29
@@ -185,8 +178,7 @@ trip.lumA.nomerge <- filter(trip.lumA.snp.BC.undup, !(trip.lumA.snp.BC.undup$SNP
 write.csv(trip.lumA.snp.BC.all,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/trip.lumA.snp.overall.0605.csv",row.names = F)
 
 write.csv(trip.lumA.nomerge,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/trip.lumA.snp.overall.nofind.0605.csv",row.names = F)
-############################
-#### Step4
+
 trip.lumA.proxy <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/triple.lumA.proxy.csv")
 trip.lumA.proxy.m <- merge(trip.lumA.proxy, trip.lumA.sum, by.x="Proxy", by.y="SNP")
 
@@ -206,8 +198,7 @@ proxy5 <- trip.lumA.sum[which(trip.lumA.sum$SNP=="rs3824987"),]
 proxy4 <- trip.lumA.sum[which(trip.lumA.sum$SNP=="rs578355"),]
 
 
-#################################################################
-### Step 5: add the proxy to the snp list and generate the input data for gcta-cojo
+
 
 trip.lumA.snp.BC.all[nrow(trip.lumA.snp.BC.all)+1,] <- c('rs61494113',19,17401859,'rs67397200')
 trip.lumA.snp.BC.all[nrow(trip.lumA.snp.BC.all)+1,] <- c('rs58320062',1,202181341,'rs6678914')
@@ -369,8 +360,6 @@ lumB.lumA.nomerge <- filter(lumB.lumA.snp.BC.undup, !(lumB.lumA.snp.BC.undup$SNP
 write.csv(lumB.lumA.snp.BC.all,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/lumB.lumA.snp.overall.0605.csv",row.names = F)
 write.csv(lumB.lumA.nomerge,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/lumB.lumA.snp.overall.nofind.0605.csv",row.names = F)
 
-###################################
-
 
 snp.list.all <- c()
 for(i in 1:nrow(lumB.lumA.snp.list.ccgwas)){
@@ -411,8 +400,6 @@ her2.lumA.nomerge <- filter(her2.lumA.snp.BC.undup, !(her2.lumA.snp.BC.undup$SNP
 write.csv(her2.lumA.snp.BC.all,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/her2.lumA.snp.overall.0605.csv",row.names = F)
 write.csv(her2.lumA.nomerge,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/her2.lumA.snp.overall.nofind.0605.csv",row.names = F)
 
-#########################################
-
 
 snp.list.all <- c()
 for(i in 1:nrow(her2.lumA.snp.list.ccgwas)){
@@ -428,68 +415,5 @@ for(i in 1:nrow(her2.lumA.snp.list.ccgwas)){
   
 }
 write.table(snp.list.all,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/gcta/test_list_subtypes0605/her2_lumA/test.all.txt")
-
-
-
-#####################################################################################
-#####################################################################################
-#summary for gcta(1 step)
-library(tidyverse)
-
-#her2 and lumA # 1
-
-temp <- as.data.frame(NA)
-files <- c()
-
-for (i in 1:1){
-  temp <- read.table (paste("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/her2_lumA/0605test",i,".jma.cojo",sep=""), head=T)
-  temp$test <- paste0("test",i)
-  files <- rbind(files, temp)
-}
-write.csv(files, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/gcta_result_her2_lumA_0605.csv", row.names = F)
-
-
-#lumB and lumA #1
-temp <- read.table (paste("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/lumB_lumA/0605test",1,".jma.cojo",sep=""), head=T)
-temp$test <- paste0("test",1)
-write.csv(temp, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/gcta_result_lumB_lumA_0605.csv", row.names = F)
-
-#Triple and lumA #21
-temp <- as.data.frame(NA)
-files <- c()
-
-for (i in 1:21){
-  temp <- read.table (paste("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumA/0605test",i,".jma.cojo",sep=""), head=T)
-  temp$test <- paste0("test",i)
-  files <- rbind(files, temp)
-}
-
-write.csv(files, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/gcta_result_trip_lumA_0605.csv", row.names = F)
-
-
-#Triple and lumB #4
-temp <- as.data.frame(NA)
-files <- c()
-
-for (i in 1:4){
-  temp <- read.table (paste("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumB/0605test",i,".jma.cojo",sep=""), head=T)
-  temp$test <- paste0("test",i)
-  files <- rbind(files, temp)
-}
-write.csv(files, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/gcta_result_trip_lumB_0605.csv", row.names = F)
-
-
-
-#Triple and trip_lumB_her2_neg #2
-temp <- as.data.frame(NA)
-files <- c()
-
-for (i in 1:2){
-  temp <- read.table (paste("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/trip_lumB_her2_neg/0605test",i,".jma.cojo",sep=""), head=T)
-  temp$test <- paste0("test",i)
-  files <- rbind(files, temp)
-}
-
-write.csv(files, "/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/gcta/gcta_result_trip_lumB_her2_neg_0605.csv", row.names = F)
 
 
