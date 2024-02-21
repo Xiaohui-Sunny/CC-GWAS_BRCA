@@ -1,0 +1,106 @@
+# prepare summary data and snp location for magma
+library(data.table)
+library(tidyverse)
+
+setwd("/home/nfs/sunx3/project/bra_subtypes_ccgwas/data")
+dbsnp <- fread("/home/nfs/sunx3/data/dbsnp/snp150Common_GRCh37.txt")
+dbsnp$chr_bp <- paste0(sapply(strsplit(dbsnp$V1, 'chr'), '[', 2), '_', dbsnp$V3)
+
+## triple and lumA
+trip.lumA <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/trip_lumA.out.results.gz",head=T)
+trip.lumA$chr_bp <- paste0(trip.lumA$CHR,"_",trip.lumA$BP)
+trip.lumA.magma <- merge(dbsnp, trip.lumA, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+trip.lumA.loc <- trip.lumA.magma[,c('V2','CHR','BP')]
+write.table(trip.lumA.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumA.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+trip.lumA.magma <- trip.lumA.magma[,c('V2','OLS_pval')]
+colnames(trip.lumA.magma) <- c('SNP','P')
+write.table(trip.lumA.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumA.magma.txt",row.names = F,quote = F)
+rm(trip.lumA)
+rm(trip.lumA.magma)
+
+## triple and lumB
+trip.lumB <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/trip_lumB.out.results.gz",head=T)
+trip.lumB$chr_bp <- paste0(trip.lumB$CHR,"_",trip.lumB$BP)
+trip.lumB.magma <- merge(dbsnp, trip.lumB, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+trip.lumB.loc <- trip.lumB.magma[,c('V2','CHR','BP')]
+write.table(trip.lumB.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumB.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+trip.lumB.magma <- trip.lumB.magma[,c('V2','OLS_pval')]
+colnames(trip.lumB.magma) <- c('SNP','P')
+write.table(trip.lumB.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumB.magma.txt",row.names = F,quote = F)
+rm(trip.lumB)
+rm(trip.lumB.magma)
+
+## triple and lumB-her2-neg
+trip.lumB.her2.neg <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/trip_lumB_her2_neg.out.results.gz",head=T)
+trip.lumB.her2.neg$chr_bp <- paste0(trip.lumB.her2.neg$CHR,"_",trip.lumB.her2.neg$BP)
+trip.lumB.her2.neg.magma <- merge(dbsnp, trip.lumB.her2.neg, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+trip.lumB.her2.neg.loc <- trip.lumB.her2.neg.magma[,c('V2','CHR','BP')]
+write.table(trip.lumB.her2.neg.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumB.her2.neg.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+trip.lumB.her2.neg.magma <- trip.lumB.her2.neg.magma[,c('V2','OLS_pval')]
+colnames(trip.lumB.her2.neg.magma) <- c('SNP','P')
+write.table(trip.lumB.her2.neg.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.lumB.her2.neg.magma.txt",row.names = F,quote = F)
+rm(trip.lumB.her2.neg)
+rm(trip.lumB.her2.neg.magma)
+
+## Her2  and LumA
+her2.lumA <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/her2_enrich_lumA.out.results.gz",head=T)
+her2.lumA$chr_bp <- paste0(her2.lumA$CHR,"_",her2.lumA$BP)
+her2.lumA.magma <- merge(dbsnp, her2.lumA, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+her2.lumA.loc <- her2.lumA.magma[,c('V2','CHR','BP')]
+write.table(her2.lumA.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/her2.lumA.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+her2.lumA.magma <- her2.lumA.magma[,c('V2','OLS_pval')]
+colnames(her2.lumA.magma) <- c('SNP','P')
+write.table(her2.lumA.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/her2.lumA.magma.txt",row.names = F,quote = F)
+rm(her2.lumA)
+rm(her2.lumA.magma)
+
+
+## Her2 and LumB
+her2.lumB <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/her2_enrich_lumB.out.results.gz",head=T)
+her2.lumB$chr_bp <- paste0(her2.lumB$CHR,"_",her2.lumB$BP)
+her2.lumB.magma <- merge(dbsnp, her2.lumB, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+her2.lumB.loc <- her2.lumB.magma[,c('V2','CHR','BP')]
+write.table(her2.lumB.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/her2.lumB.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+her2.lumB.magma <- her2.lumB.magma[,c('V2','OLS_pval')]
+colnames(her2.lumB.magma) <- c('SNP','P')
+write.table(her2.lumB.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/her2.lumB.magma.txt",row.names = F,quote = F)
+rm(her2.lumB)
+rm(her2.lumB.magma)
+
+## LumA and LumB
+lumA.lumB <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/lumB_lumA.out.results.gz",head=T)
+lumA.lumB$chr_bp <- paste0(lumA.lumB$CHR,"_",lumA.lumB$BP)
+lumA.lumB.magma <- merge(dbsnp, lumA.lumB, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+lumA.lumB.loc <- lumA.lumB.magma[,c('V2','CHR','BP')]
+write.table(lumA.lumB.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/lumA.lumB.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+lumA.lumB.magma <- lumA.lumB.magma[,c('V2','OLS_pval')]
+colnames(lumA.lumB.magma) <- c('SNP','P')
+write.table(lumA.lumB.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/lumA.lumB.magma.txt",row.names = F,quote = F)
+rm(lumA.lumB)
+rm(lumA.lumB.magma)
+
+## Triple and Her2
+trip.her2 <- fread("/home/nfs/sunx3/project/bra_subtypes_ccgwas/result/ccgwas/trip_her2.out.results.gz",head=T)
+trip.her2$chr_bp <- paste0(trip.her2$CHR,"_",trip.her2$BP)
+trip.her2.magma <- merge(dbsnp, trip.her2, by.x="chr_bp",by.y="chr_bp")
+### snp locations
+trip.her2.loc <- trip.her2.magma[,c('V2','CHR','BP')]
+write.table(trip.her2.loc,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.her2.snp.loc.txt",row.names = F,quote = F, col.names = F)
+### summary statistics
+trip.her2.magma <- trip.her2.magma[,c('V2','OLS_pval')]
+colnames(trip.her2.magma) <- c('SNP','P')
+write.table(trip.her2.magma,"/home/nfs/sunx3/project/bra_subtypes_ccgwas/data/magma/trip.her2.magma.txt",row.names = F,quote = F)
+rm(trip.her2)
+rm(trip.her2.magma)
