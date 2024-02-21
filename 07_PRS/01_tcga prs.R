@@ -282,16 +282,8 @@ Cox_OS_all[3,1:3] <- summary(re2.model1)$conf.int[1,c(1,3,4)]
 Cox_OS_all[3,4] <- summary(re2.model1)$coefficients[1,5] 
 
 
-#model2: adjusted for age, stage,PCAs, PAM50
-re1.model2 <- coxph(Surv(OS.time, OS) ~ prs.ccgwas.tertile + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
-re2.model2 <- coxph(Surv(OS.time, OS) ~ prs.ccgwas.tertile.comb + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
-Cox_OS_all[4:5,1:3] <- summary(re1.model2)$conf.int[1:2,c(1,3,4)] 
-Cox_OS_all[4:5,4] <- summary(re1.model2)$coefficients[1:2,5]
-Cox_OS_all[6,1:3] <- summary(re2.model2)$conf.int[1,c(1,3,4)] 
-Cox_OS_all[6,4] <- summary(re2.model2)$coefficients[1,5] 
 
-
-#model3: adjusted for age, stage, PCAs, PAM50, PRS.TNBC25
+#model2: adjusted for age, stage, PCAs, PAM50, PRS.TNBC25
 re1.model3 <- coxph(Surv(OS.time, OS) ~ prs.ccgwas.tertile + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + prs.TNBC25 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
 re2.model3 <- coxph(Surv(OS.time, OS) ~ prs.ccgwas.tertile.comb + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + prs.TNBC25 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
 Cox_OS_all[7:8,1:3] <- summary(re1.model3)$conf.int[1:2,c(1,3,4)] 
@@ -318,16 +310,7 @@ Cox_DSS_all[3,1:3] <- summary(re2.model1)$conf.int[1,c(1,3,4)]
 Cox_DSS_all[3,4] <- summary(re2.model1)$coefficients[1,5] 
 
 
-#model2: adjusted for age, stage,PCAs, PAM50
-re1.model2 <- coxph(Surv(DSS.time, DSS) ~ prs.ccgwas.tertile + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
-re2.model2 <- coxph(Surv(DSS.time, DSS) ~ prs.ccgwas.tertile.comb + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
-Cox_DSS_all[4:5,1:3] <- summary(re1.model2)$conf.int[1:2,c(1,3,4)] 
-Cox_DSS_all[4:5,4] <- summary(re1.model2)$coefficients[1:2,5]
-Cox_DSS_all[6,1:3] <- summary(re2.model2)$conf.int[1,c(1,3,4)] 
-Cox_DSS_all[6,4] <- summary(re2.model2)$coefficients[1,5] 
-
-
-#model3: adjusted for age, stage, PCAs, PAM50, PRS.TNBC25
+#model2: adjusted for age, stage, PCAs, PAM50, PRS.TNBC25
 re1.model3 <- coxph(Surv(DSS.time, DSS) ~ prs.ccgwas.tertile + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + prs.TNBC25 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
 re2.model3 <- coxph(Surv(DSS.time, DSS) ~ prs.ccgwas.tertile.comb + as.factor(stage) + age_at_initial_pathologic_diagnosis + BRCA_Subtype_PAM50_from_mmc4 + prs.TNBC25 + PCA1 + PCA2 + PCA3 +PCA4 + PCA5, data = dat)
 Cox_DSS_all[7:8,1:3] <- summary(re1.model3)$conf.int[1:2,c(1,3,4)] 
