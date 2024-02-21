@@ -1,37 +1,27 @@
 # prepare snp dosage for susieR
 ## use 1000 Geno(EUR) data as an LD reference
 
-### triple and lumA
+#### triple and lumA
 /home/nfs/sunx3/software/plink2.0/plink \
   --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
-  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumA_ccgwas_1mb_index_snp_list_0503.txt \
+  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumA_ccgwas_1mb_index_snp_list.txt \
   --recodeA \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/Dosage.trip.lumA
 
-### lumB and lumA
-/home/nfs/sunx3/software/plink2.0/plink \
-  --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
-  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/lumB_lumA_ccgwas_1mb_index_snp_list_0503.txt \
-  --recodeA \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/Dosage.lumB.lumA
 
-### triple and lumB
+#### triple and lumB
 /home/nfs/sunx3/software/plink2.0/plink \
   --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
-  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumB_ccgwas_1mb_index_snp_list_0503.txt \
+  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumB_ccgwas_1mb_index_snp_list.txt \
   --recodeA \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/Dosage.trip.lumB
 
-### triple and lumB-her2-neg
+
+#### triple and lumB-her2-neg
 /home/nfs/sunx3/software/plink2.0/plink \
   --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
-  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumB_her2_neg_ccgwas_1mb_index_snp_list_0503.txt \
+  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/trip_lumB_her2_neg_ccgwas_1mb_index_snp_list.txt \
   --recodeA \
   --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/Dosage.trip.lumB.her2.neg
 
-### her2 and lumA
-/home/nfs/sunx3/software/plink2.0/plink \
-  --bfile /home/nfs/sunx3/data/1000genomes/g1000_eur/g1000_eur \
-  --extract /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/her2_enrich_lumA_ccgwas_1mb_index_snp_list_0503.txt \
-  --recodeA \
-  --out /home/nfs/sunx3/project/bra_subtypes_ccgwas/data/susie/Dosage.her2.lumA
+
